@@ -1,0 +1,70 @@
+nav {
+    display: flex;
+    align-items: center;
+}
+
+nav h1 {
+    margin-left: 46%;
+    cursor: pointer;
+}
+
+.path {
+    display: flex;
+    width: 25%;
+    margin-left: 18%;
+}
+
+.path li {
+    padding: 0 5%;
+    list-style: none;
+    cursor: pointer;
+}
+
+section {
+    margin: 0 5%;
+}
+
+#filterBtn {
+    padding: 0.7% 3%;
+    cursor: pointer;
+    background: none;
+    border: solid 1px gray;
+}
+
+.types {
+    width: 45%;
+    border: solid 1px gray;
+    margin-top: 1%;
+}
+
+.typeFilter {
+    padding: 1.5% 2%;
+    cursor: pointer;
+    border: none;
+    background: none;
+}
+
+.pokemons {
+    margin-top: 2%;
+}
+
+.four {
+    display: flex;
+    margin-bottom: 2%;
+}
+
+.pokemon {
+    border: solid 1px gray;
+    width: 40%;
+    margin: 0 2%;
+}
+
+.pokPic {
+    width: 75%;
+    height: auto;
+    padding: 10% 12%;
+}
+
+.text {
+    padding: 0 5%;
+}
