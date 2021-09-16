@@ -35,10 +35,10 @@ class Pokemon {
             pokName: Joi.string()
                 .min(1)
                 .max(50),
-            pokHeight: Joi.number()
-                .integer(),
-            pokWeight: Joi.number()
-                .integer(),
+            pokHeight: Joi.string()
+                .max(50),
+            pokWeight: Joi.string()
+                .max(50),
             pokAbilities: Joi.string()
                 .max(255),
             pokTypes: Joi.array()
@@ -50,7 +50,7 @@ class Pokemon {
                             .required(),
                         pokTypeName: Joi.string()
                             .min(1)
-                            .max(50),
+                            .max(255),
                         pokTypeDescription: Joi.string()
                             .max(255)
                     })
@@ -71,7 +71,7 @@ class Pokemon {
                         result = await pool.request()
                             .input('pokTypeId', sql.Int(), pokTypeId)
                             .query(`
-                            SELECT p.pokPokemonId, p.pokName, p.pokHeight, p.pokWeight, t.pokTypeId, t.pokTypeName
+                            SELECT p.pokPokemonId, p.pokName, p.pokHeight, p.pokWeight, p.pokAbilities, t.pokTypeId, t.pokTypeName
                             FROM pokPokemon p
                             JOIN pokPokemonTypes pt
                                 ON p.pokPokemonId = pt.FK_pokPokemonId
@@ -91,7 +91,7 @@ class Pokemon {
                     } else {
                         result = await pool.request()
                             .query(`
-                            SELECT p.pokPokemonId, p.pokName, p.pokHeight, p.pokWeight, t.pokTypeId, t.pokTypeName 
+                            SELECT p.pokPokemonId, p.pokName, p.pokHeight, p.pokWeight, p.pokAbilities, t.pokTypeId, t.pokTypeName 
                             FROM pokPokemon p
                             JOIN pokPokemonTypes pt
                                 ON p.pokPokemonId = pt.FK_pokPokemonId
@@ -123,7 +123,7 @@ class Pokemon {
                                 pokTypes: [
                                     {
                                         pokTypeId: record.pokTypeId,
-                                        pokName: record.pokName,
+                                        pokTypeName: record.pokTypeName,
                                         pokTypeDescription: record.pokTypeDescription
                                     }
                                 ]
@@ -177,7 +177,7 @@ class Pokemon {
                             console.log(`Pokemons with id ${record.pokPokemonId} already exists.`);
                             const newType = {
                                 pokTypeId: record.pokTypeId,
-                                pokName: record.pokName,
+                                pokTypeName: record.pokTypeName,
                                 pokTypeDescription: record.pokTypeDescription
                             }
                             pokemons[lastPokemonIndex].pokTypes.push(newType);
@@ -188,10 +188,11 @@ class Pokemon {
                                 pokName: record.pokName,
                                 pokHeight: record.pokHeight,
                                 pokWeight: record.pokWeight,
+                                pokAbilities: record.pokAbilities,
                                 pokTypes: [
                                     {
                                         pokTypeId: record.pokTypeId,
-                                        pokName: record.pokName,
+                                        pokTypeName: record.pokTypeName,
                                         pokTypeDescription: record.pokTypeDescription
                                     }
                                 ]
@@ -229,7 +230,7 @@ class Pokemon {
                     const pool = await sql.connect(con);
                     const resultCheckPokemon = await pool.request()
                         .input('pokName', sql.NVarChar(50), this.pokName)
-                        .input('pokHeight', sql.Int(), this.pokHeight)
+                        .input('pokHeight', sql.NVarChar(50), this.pokHeight)
                         .query(`
                             SELECT *
                             FROM pokPokemon p
@@ -242,8 +243,8 @@ class Pokemon {
                     await pool.connect();
                     const result00 = await pool.request()
                         .input('pokName', sql.NVarChar(50), this.pokName)
-                        .input('pokHeight', sql.Int(), this.pokHeight)
-                        .input('pokWeight', sql.Int(), this.pokWeight)
+                        .input('pokHeight', sql.NVarChar(50), this.pokHeight)
+                        .input('pokWeight', sql.NVarChar(50), this.pokWeight)
                         .input('pokAbilities', sql.NVarChar(255), this.pokAbilities)
                         .input('pokTypeId', sql.Int(), this.pokTypes[0].pokTypeId)
                         .query(`
@@ -261,12 +262,12 @@ class Pokemon {
                     if (!result00.recordset[0]) throw { statusCode: 500, errorMessage: `DB server error, INSERT failed.` }
                     const pokPokemonId = result00.recordset[0].pokemonId;
 
-                    this.pokTypes.forEach(async (types, index) => {
+                    this.pokTypes.forEach(async (type, index) => {
                         if (index > 0) {
                             await pool.connect();
                             const resultTypes = await pool.request()
                                 .input('pokPokemonId', sql.Int(), pokPokemonId)
-                                .input('pokTypeid', sql.Int(), pokType.pokTypeId)
+                                .input('pokTypeid', sql.Int(), type.pokTypeId)
                                 .query(`
                                     INSERT INTO pokPokemonTypes (FK_pokPokemonId, FK_pokPokemonId)
                                     VALUES (@pokPokemonId, @pokTypeId)
@@ -328,14 +329,14 @@ class Pokemon {
                     const oldPokemon = await Pokemon.readById(this.pokPokemonId); // this should have be checked already in the router handler
 
                     this.pokTypes.forEach(async (type) => {
-                        const typeCheck = await Type.readById(pokType.pokTypeId);
+                        const typeCheck = await Type.readById(type.pokTypeId);
                     });
 
                     const pool = await sql.connect(con);
                     const result = await pool.request()
                         .input('pokName', sql.NVarChar(50), this.pokName)
-                        .input('pokHeight', sql.Int(), this.pokHeight)
-                        .input('pokWeight', sql.Int(), this.pokWeight)
+                        .input('pokHeight', sql.NVarChar(50), this.pokHeight)
+                        .input('pokWeight', sql.NVarChar(50), this.pokWeight)
                         .input('pokPokemonId', sql.Int(), this.pokPokemonId)
                         .input('pokTypeId', sql.Int(), this.pokTypes[0].pokTypeId)
                         .query(`
@@ -358,7 +359,7 @@ class Pokemon {
                             await pool.connect();
                             const resultTypes = await pool.request()
                                 .input('pokPokemonId', sql.Int(), this.pokPokemonId)
-                                .input('pokTypeId', sql.Int(), pokType.pokTypeId)
+                                .input('pokTypeId', sql.Int(), type.pokTypeId)
                                 .query(`
                                     INSERT INTO pokPokemonTypes (FK_pokPokemonId, FK_pokTypeId)
                                     VALUES (@pokPokemonId, @pokTypeId)

@@ -17,7 +17,6 @@ class Account {
     static validate(accountObj) {
         const schema = Joi.object({
             userEmail: Joi.string()
-                .max(255)
                 .required()
                 .email(),
             userPassword: Joi.string()
@@ -26,6 +25,7 @@ class Account {
                 .required(),
             userName: Joi.string()
                 .alphanum()
+                .min(1)
                 .max(50)
         });
 
@@ -39,7 +39,9 @@ class Account {
                 .required(),
             userName: Joi.string()
                 .alphanum()
-                .max(50),
+                .min(1)
+                .max(50)
+                .required(),
             userRole: Joi.object({
                 roleId: Joi.number()
                     .integer()
