@@ -1,5 +1,3 @@
-// Opdateret
-
 const sql = require('mssql');
 const config = require('config');
 const Joi = require('joi');
@@ -19,6 +17,7 @@ class Account {
     static validate(accountObj) {
         const schema = Joi.object({
             userEmail: Joi.string()
+                .max(255)
                 .required()
                 .email(),
             userPassword: Joi.string()
@@ -27,7 +26,6 @@ class Account {
                 .required(),
             userName: Joi.string()
                 .alphanum()
-                .min(1)
                 .max(50)
         });
 
@@ -41,9 +39,7 @@ class Account {
                 .required(),
             userName: Joi.string()
                 .alphanum()
-                .min(1)
-                .max(50)
-                .required(),
+                .max(50),
             userRole: Joi.object({
                 roleId: Joi.number()
                     .integer()
@@ -62,7 +58,6 @@ class Account {
     static checkCredentials(accountObj) {
         return new Promise((resolve, reject) => {
             (async () => {
-
                 try {
                     const pool = await sql.connect(con);
                     const result = await pool.request()
@@ -111,7 +106,6 @@ class Account {
     static readByEmail(accountObj) {
         return new Promise((resolve, reject) => {
             (async () => {
-
                 try {
                     const pool = await sql.connect(con);
                     const result = await pool.request()
@@ -155,7 +149,6 @@ class Account {
     create() {
         return new Promise((resolve, reject) => {
             (async () => {
-            
                 try {
                     const account = await Account.readByEmail(this);  
                     
