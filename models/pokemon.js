@@ -382,6 +382,80 @@ class Pokemon {
             })();
         });
     }
+
+    // readByUserId
+    // add another JOIN (favorite table), instead of looking up pokemon id, instead userid = userid
+
+    // static readById(pokPokemonId) {
+    //     return new Promise((resolve, reject) => {
+    //         (async () => {
+    //             try {
+    //                 const pool = await sql.connect(con);
+    //                 const result = await pool.request()
+    //                     .input('pokPokemonId', sql.Int(), pokPokemonId)
+    //                     .query(`
+    //                         SELECT p.pokPokemonId, p.pokName, p.pokHeight, p.pokWeight, t.pokTypeId, t.pokTypeName, t.pokTypeDescription 
+    //                         FROM pokPokemon p
+    //                         JOIN pokPokemonTypes pt
+    //                             ON p.pokPokemonId = pt.FK_pokPokemonId
+    //                         JOIN pokType t
+    //                             ON pt.FK_pokTypeId = t.pokTypeId
+    //                         WHERE p.pokPokemonId = @pokPokemonId
+    //                 `)
+
+    //                 const pokemons = [];   // this is NOT validated yet
+    // let lastPokemonIndex = -1;
+    // result.recordset.forEach(record => {
+    //     if (pokemons[lastPokemonIndex] && record.pokPokemonId == pokemons[lastPokemonIndex].pokPokemonId) {
+    //         console.log(`Pokemon with id ${record.pokPokemonId} already exists.`);
+    //         const newType = {
+    //             pokTypeId: record.pokTypeId,
+    //             pokTypeName: record.pokTypeName,
+    //             pokTypeDescription: record.pokTypeDescription
+    //         }
+    //         pokemons[lastPokemonIndex].pokTypes.push(newType);
+    //     } else {
+    //         console.log(`Pokemon with id ${record.pokPokemonId} is a new pokemon.`)
+    //         const newPokemon = {
+    //             pokPokemonId: record.pokPokemonId,
+    //             pokName: record.pokName,
+    //             pokHeight: record.pokHeight,
+    //             pokWeight: record.pokWeight,
+    //             pokAbilities: record.pokAbilities,
+    //             pokTypes: [
+    //                 {
+    //                     pokTypeId: record.pokTypeId,
+    //                     pokTypeName: record.pokTypeName,
+    //                     pokTypeDescription: record.pokTypeDescription
+    //                 }
+    //             ]
+    //         }
+    //         pokemons.push(newPokemon);
+    //         lastPokemonIndex++;
+    //     }
+    // });
+
+    // const validPokemons = [];
+    // pokemons.forEach(pokemon => {
+    //     const { error } = Pokemon.validate(pokemon);
+    //     if (error) throw { errorMessage: `Pokemon.validate failed.` };
+
+    //     validPokemons.push(new Pokemon(pokemon));
+    // });
+
+    // resolve(validPokemons);
+
+    //             } catch (error) {
+    //                 reject(error);
+    //             }
+
+    //             sql.close();
+    //         })();
+    //     });
+    // }
+
+
+
 }
 
 module.exports = Pokemon;
