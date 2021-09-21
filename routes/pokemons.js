@@ -78,24 +78,26 @@ router.put('/:pokPokemonId', [authenticate, admin], async (req, res) => {
     }
 });
 
-// router.get('/favorites', [authenticate], async (req, res) => {
+router.get('/favorites', [authenticate], async (req, res) => {
 
-// who is the user (req.account.userId)
-// new method in model (pokemon.js in the class) - be able to read out all pokemons by userId
+    // let pokTypeId;
+    // if (req.query.pokType) {
+    //     pokTypeId = parseInt(req.query.pokType);
+    //     if (!pokTypeId) return res.status(400).send(JSON.stringify({ errorMessage: 'Bad request: ?pokType= should refer a type id (integer)' }));
+    // }
+    let pokUserId;
+    if (req.account.userId) {
+        pokUserId = parseInt(req.account.userId);
+        if (!pokUserId) return res.status(400).send(JSON.stringify({ errorMessage: 'Bad request: not logged in' }));
+    }
 
-// let pokTypeId;
-// if (req.query.pokType) {
-//     pokTypeId = parseInt(req.query.pokType);
-//     if (!pokTypeId) return res.status(400).send(JSON.stringify({ errorMessage: 'Bad request: ?pokType= should refer a type id (integer)' }));
-// }
-
-// try {
-//     const pokPokemon = await Pokemon.readAll(pokTypeId); (await Pokemon.readByUserId(pokUserId, pokTypeId));
-//     return res.send(JSON.stringify(pokPokemon));
-// } catch (err) {
-//     return res.status(500).send(JSON.stringify({ errorMessage: err }));
-// }
-// });
+    try {
+        const pokPokemon = await Pokemon.readByUserId(pokUserId);
+        return res.send(JSON.stringify(pokPokemon));
+    } catch (err) {
+        return res.status(500).send(JSON.stringify({ errorMessage: err }));
+    }
+});
 
 
 module.exports = router;
