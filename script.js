@@ -1,11 +1,14 @@
+const { readAll } = require("./models/pokemon");
+const { readById } = require("./models/type");
+
 const loginDiv = document.querySelector('#logIn');
 const logoutDiv = document.querySelector('#logOut');
 const userEmail = document.querySelector('#userEmail');
 const userPassword = document.querySelector('#userPassword');
-const loginButton = document.querySelector('#logInBtn');
+const loginButton = document.querySelector('#loginButton');
 const logoutButton = document.querySelector('#logoutButton');
-const publicArticle = document.querySelector('#publicArticle');
-const privateArticle = document.querySelector('#privateArticle');
+// const publicArticle = document.querySelector('#publicArticle');
+// const privateArticle = document.querySelector('#privateArticle');
 
 const APIaddress = 'http://127.0.0.1:8434';
 
@@ -71,30 +74,30 @@ window.addEventListener('load', (e) => {
     if (token) fetchOptions.headers['x-authenticate-token'] = token;
     console.log(fetchOptions.headers);
 
-    // render the public article
-    fetchOptions.method = 'GET';
-    fetch(APIaddress + '/api/pokemons', fetchOptions)
-        .then(response => {
-            return response.json()
-        })
-        .then(data => {
-            publicArticle.innerHTML = data.message;
-        })
-        .catch(error => console.log(error));
+    // // render the public article
+    // fetchOptions.method = 'GET';
+    // fetch(APIaddress + '/api/pokemons', fetchOptions)
+    //     .then(response => {
+    //         return response.json()
+    //     })
+    //     .then(data => {
+    //         publicArticle.innerHTML = data.message;
+    //     })
+    //     .catch(error => console.log(error));
 
-    // render the private article if logged in
-    if (token) {
-        fetchOptions.method = 'GET';
-        fetch(APIaddress + '/api/dummies/private', fetchOptions)
-            .then(response => {
-                return response.json()
-            })
-            .then(data => {
-                privateArticle.innerHTML = data.message;
-            })
-            .catch(error => console.log(error));
+    // // render the private article if logged in
+    // if (token) {
+    //     fetchOptions.method = 'GET';
+    //     fetch(APIaddress + '/api/pokemons/favorites', fetchOptions)
+    //         .then(response => {
+    //             return response.json()
+    //         })
+    //         .then(data => {
+    //             privateArticle.innerHTML = data.message;
+    //         })
+    //         .catch(error => console.log(error));
 
-    }
+    // }
 
     // render the login/logout divs on the condition of being logged in or not
     if (token) {
@@ -104,3 +107,22 @@ window.addEventListener('load', (e) => {
     }
 
 })
+
+// Filtrering
+
+// const pokemonType = //call the function we already have
+
+// function checkType(pokemonType) {
+//   return pokemonType = document.getElementById("relevantid").value;
+// }
+
+// function frontendType() {
+//   document.getElementById("filter").innerHTML = pokemontype.filter(checkType);
+// }
+
+// Da fuck is dis?
+
+// function grass() {
+//     return readAll(pokTypeId == 1);
+// }
+// document.getElementById("grass").innerHTML = grass();

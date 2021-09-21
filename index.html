@@ -16,8 +16,18 @@
             <h1>Pokédex 2.0</h1>
             <ul class="path">
                 <li>FAVORITES</li>
-                <li>ABOUT</li>
-                <li id="logInBtn">LOG IN</li>
+                <section>
+                    <div id="logIn">
+                        <input type="text" id="userEmail" name="userEmail" placeholder="email">
+                        <br />
+                        <input type="password" id="userPassword" name="userPassword" placeholder="password">
+                        <br />
+                        <button id="loginButton">Log in</button>
+                    </div>
+                    <div id="logOut">
+                        <button id="logoutButton">Log out</button>
+                    </div>
+                </section>
             </ul>
         </nav>
     </header>
@@ -26,7 +36,7 @@
             <button id="filterBtn">Filter</button>
         </div>
         <div class="types">
-            <button class="typeFilter">Grass</button>
+            <button class="typeFilter" onclick="grass()">Grass</button>
             <button class="typeFilter">Poison</button>
             <button class="typeFilter">Fire</button>
             <button class="typeFilter">Water</button>
@@ -45,6 +55,11 @@
             <button class="typeFilter">Dragon</button>
             <button class="typeFilter">Dark</button>
         </div>
+        <p><input type="number" id="checkType" value="18"></p>
+
+        <button onclick="frontendType()">Try it</button>
+
+        <p id="demo"></p>
     </section>
     <section class="pokemons">
         <div class="four">
@@ -119,4 +134,3 @@
 </body>
 
 </html>
-
