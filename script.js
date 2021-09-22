@@ -1,6 +1,3 @@
-const { readAll } = require("./models/pokemon");
-const { readById } = require("./models/type");
-
 const loginDiv = document.querySelector('#logIn');
 const logoutDiv = document.querySelector('#logOut');
 const userEmail = document.querySelector('#userEmail');
@@ -106,9 +103,56 @@ window.addEventListener('load', (e) => {
         logoutDiv.classList.add('hidden');
     }
 
+    fetch(APIaddress + "/api/pokemons", fetchOptions)
+        .then(response => {
+            return response.json()
+        })
+        .then(data => {
+            renderPokemon(data);
+        })
+
 })
 
+function renderPokemon(pokData) {
+    let htmlBox = "";
+    pokData.forEach(pokemon => {
+        console.log(pokemon);
+        htmlBox += `
+                <div class="pokemon">
+                <img src="images/pikachu-5527377_1920.jpg" class="pokPic">
+                <div class="text">
+                    <p>Name: ${pokemon.pokName}</p>
+                    <p>Type: ${pokemon.pokTypes[0].pokTypeName}</p>
+                    <p>ID: ${pokemon.pokPokemonId}</p>
+                </div>
+                </div>
+                `
+    });
+    document.querySelectorAll(".pokemons")[0].innerHTML = htmlBox;
+}
 // Filtrering
+
+function filterPokemon(pokTypeId) {
+    
+    const token = window.localStorage.getItem('x-authenticate-token');
+
+    const fetchOptions = {
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    }
+    console.log(fetchOptions.headers['Content-Type']);
+    if (token) fetchOptions.headers['x-authenticate-token'] = token;
+    console.log(fetchOptions.headers);
+
+    fetch(APIaddress + "/api/pokemons?pokType=" + pokTypeId, fetchOptions)
+    .then(response => {
+        return response.json()
+    })
+    .then(data => {
+        renderPokemon(data);
+    })
+}
 
 // const pokemonType = //call the function we already have
 

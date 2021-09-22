@@ -11,12 +11,15 @@ const Type = require('./type');
 
 class Pokemon {
     constructor(pokemonObj) {
+        console.log(`Are we there yet?`);
         this.pokPokemonId = pokemonObj.pokPokemonId;
         this.pokName = pokemonObj.pokName;
         this.pokHeight = pokemonObj.pokHeight;
         this.pokWeight = pokemonObj.pokWeight;
         this.pokAbilities = pokemonObj.pokAbilities;
+        this.pokGender = pokemonObj.pokGender;
         if (pokemonObj.pokTypes) this.pokTypes = _.cloneDeep(pokemonObj.pokTypes);
+        console.log(`Are we here?`);
     }
 
     copy(pokemonObj) {
@@ -24,10 +27,12 @@ class Pokemon {
         if (pokemonObj.pokHeight) this.pokHeight = pokemonObj.pokHeight;
         if (pokemonObj.pokWeight) this.pokWeight = pokemonObj.pokWeight;
         if (pokemonObj.pokAbilities) this.pokAbilities = pokemonObj.pokAbilities;
+        if (pokemonObj.pokGender) this.pokGender = pokemonObj.pokGender;
         if (pokemonObj.pokTypes) this.pokTypes = _.cloneDeep(pokemonObj.pokTypes);
     }
 
     static validate(pokemonWannabeeObj) {
+        console.log(`are we validating?`);
         const schema = Joi.object({
             pokPokemonId: Joi.number()
                 .integer()
@@ -41,6 +46,8 @@ class Pokemon {
                 .max(50),
             pokAbilities: Joi.string()
                 .max(255),
+            pokGender: Joi.string()
+                .max(50),
             pokTypes: Joi.array()
                 .items(
                     Joi.object({
@@ -53,13 +60,14 @@ class Pokemon {
                             .max(255),
                         pokTypeDescription: Joi.string()
                             .max(255)
+                            .allow(null)
                     })
                 )
         });
-
+        console.log(`here?`);
         return schema.validate(pokemonWannabeeObj);
     }
-
+// LEFT JOIN FOR FAVORITES
     static readAll(pokTypeId) {
         return new Promise((resolve, reject) => {
             (async () => {
@@ -391,16 +399,20 @@ class Pokemon {
                     const result = await pool.request()
                         .input('userId', sql.Int(), userId)
                         .query(`
-                            SELECT u.userId, p.pokName 
+                            SELECT u.userId, p.pokName, p.pokAbilities, p.pokHeight, p.pokWeight, p.pokGender, p.pokPokemonId, t.pokTypeId, t.pokTypeName
                             FROM pokUser u
                             JOIN pokFavoritPokemon f
                                 ON u.userId = f.FK_userId
                             JOIN pokPokemon p
                                 ON f.FK_pokPokemonId = p.pokPokemonId
+                            JOIN pokPokemonTypes pt
+                                ON pt.FK_pokPokemonId = p.pokPokemonId
+                            JOIN pokType t
+                                ON t.pokTypeId = pt.FK_pokPokemonId
                             WHERE u.userId = @userId
                     `)
-
-                    const pokemons = [];   // this is NOT validated yet
+                    console.log(result.recordset);
+                    const pokemons = [];
                     let lastPokemonIndex = -1;
                     result.recordset.forEach(record => {
                         if (pokemons[lastPokemonIndex] && record.pokPokemonId == pokemons[lastPokemonIndex].pokPokemonId) {
@@ -419,6 +431,7 @@ class Pokemon {
                                 pokHeight: record.pokHeight,
                                 pokWeight: record.pokWeight,
                                 pokAbilities: record.pokAbilities,
+                                pokGender: record.pokGender,
                                 pokTypes: [
                                     {
                                         pokTypeId: record.pokTypeId,
@@ -428,13 +441,17 @@ class Pokemon {
                                 ]
                             }
                             pokemons.push(newPokemon);
+                            console.log(newPokemon);
                             lastPokemonIndex++;
                         }
                     });
-
+                    console.log(pokemons);
                     const validPokemons = [];
+                    console.log(`how about now?`);
                     pokemons.forEach(pokemon => {
                         const { error } = Pokemon.validate(pokemon);
+                        // console.log(error);
+                        // console.log(`${error.details[0].message} ...or is there a validation error at all`);
                         if (error) throw { errorMessage: `Pokemon.validate failed.` };
 
                         validPokemons.push(new Pokemon(pokemon));
@@ -451,7 +468,46 @@ class Pokemon {
         });
     }
 
+    makeFavorite(userId) {
+        return new Promise((resolve, reject) => {
+            (async () => {
+                try {
+                    const oldPokemon = await Pokemon.readById(this.pokPokemonId);
 
+                    const pool = await sql.connect(con);
+                    const result00 = await pool.request()
+                        .input('userId', sql.Int(), userId)
+                        .input('pokPokemonId', sql.Int(), this.pokPokemonId)
+                        .query(`
+                            SELECT *
+                            FROM pokFavoritPokemon
+                            WHERE FK_userId = @userId
+                            AND FK_pokPokemonId = @pokPokemonId
+                        `)
+
+                    if (result00.recordset.length > 0) throw { errorMessage: `Pokemon is already a favorite` };
+
+                    await pool.connect();
+                    const result = await pool.request()
+                        .input('userId', sql.Int(), userId)
+                        .input('pokPokemonId', sql.Int(), this.pokPokemonId)
+                        .query(`
+                            INSERT INTO pokFavoritPokemon
+                            ([FK_userId], [FK_pokPokemonId])
+                            VALUES
+                            (@userId, @pokPokemonId)
+                        `)
+// return userobject with collection of pokemon in it
+
+                } catch (error) {
+                    reject(error)
+                }
+
+                sql.close();
+            })();
+        });
+
+    }
 
 }
 

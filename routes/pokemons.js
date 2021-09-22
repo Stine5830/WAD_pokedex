@@ -20,6 +20,49 @@ router.get('/', async (req, res) => {
     }
 });
 
+router.get('/favorites', [authenticate], async (req, res) => {
+
+    // let pokTypeId;
+    // if (req.query.pokType) {
+    //     pokTypeId = parseInt(req.query.pokType);
+    //     if (!pokTypeId) return res.status(400).send(JSON.stringify({ errorMessage: 'Bad request: ?pokType= should refer a type id (integer)' }));
+    // }
+
+    try {
+        const pokPokemon = await Pokemon.readByUserId(req.account.userId);
+        console.log(`Here we are`)
+        return res.send(JSON.stringify(pokPokemon));
+    } catch (err) {
+        return res.status(500).send(JSON.stringify({ errorMessage: err }));
+    }
+});
+
+router.put('/favorites/:pokPokemonId', [authenticate], async (req, res) => {
+
+    let pokPokemonId;
+    if (req.query.pokPokemonId) {
+        pokPokemonId = parseInt(req.query.pokPokemonId);
+        if (!pokPokemonId) return res.status(400).send(JSON.stringify({ errorMessage: 'Bad request: pokPokemonId should refer a type id (integer)' })); //change this message
+    }
+
+    // try {
+    //     const oldPokPokemon = await Pokemon.readById(req.params.pokPokemonId);
+    //     oldPokPokemon.copy(req.body);
+    //     const pokPokemon = await oldPokPokemon.update();
+    //     return res.send(JSON.stringify(pokPokemon));
+    // } catch (err) {
+    //     return res.status(500).send(JSON.stringify({ errorMessage: err }));
+    // }
+
+    // try {
+    //     const pokPokemon = await Pokemon.updateFavorite(req.account.userId, pokPokemonId); 
+    //     console.log(`Here we are`)
+    //     return res.send(JSON.stringify(pokPokemon));
+    // } catch (err) {
+    //     return res.status(500).send(JSON.stringify({ errorMessage: err }));
+    // }
+});
+
 router.get('/:pokPokemonId', async (req, res) => {
 
     const { error } = Pokemon.validate(req.params);
@@ -72,27 +115,6 @@ router.put('/:pokPokemonId', [authenticate, admin], async (req, res) => {
         const oldPokPokemon = await Pokemon.readById(req.params.pokPokemonId);
         oldPokPokemon.copy(req.body);
         const pokPokemon = await oldPokPokemon.update();
-        return res.send(JSON.stringify(pokPokemon));
-    } catch (err) {
-        return res.status(500).send(JSON.stringify({ errorMessage: err }));
-    }
-});
-
-router.get('/favorites', [authenticate], async (req, res) => {
-
-    // let pokTypeId;
-    // if (req.query.pokType) {
-    //     pokTypeId = parseInt(req.query.pokType);
-    //     if (!pokTypeId) return res.status(400).send(JSON.stringify({ errorMessage: 'Bad request: ?pokType= should refer a type id (integer)' }));
-    // }
-    let pokUserId;
-    if (req.account.userId) {
-        pokUserId = parseInt(req.account.userId);
-        if (!pokUserId) return res.status(400).send(JSON.stringify({ errorMessage: 'Bad request: not logged in' }));
-    }
-
-    try {
-        const pokPokemon = await Pokemon.readByUserId(pokUserId);
         return res.send(JSON.stringify(pokPokemon));
     } catch (err) {
         return res.status(500).send(JSON.stringify({ errorMessage: err }));
