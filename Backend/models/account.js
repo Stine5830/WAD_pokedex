@@ -135,6 +135,7 @@ class Account {
                     if (error) throw { statusCode: 500, errorMessage: 'Corrupt user account informaion in database.' }
 
                     resolve(accountResponse);
+                    window.location.reload();
 
                 } catch (error) {
                     console.log(error);
