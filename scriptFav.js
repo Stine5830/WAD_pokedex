@@ -76,7 +76,7 @@ window.addEventListener('load', (e) => {
     }
 
     if (token) {
-        fetch(APIaddress + "/api/pokemons/member", fetchOptions)
+        fetch(APIaddress + "/api/pokemons/member/favorites", fetchOptions)
             .then(response => {
                 return response.json()
             })
@@ -84,64 +84,13 @@ window.addEventListener('load', (e) => {
                 renderPokemonWithFavorite(data);
             })
     } else {
-        fetch(APIaddress + "/api/pokemons", fetchOptions)
-            .then(response => {
-                return response.json()
-            })
-            .then(data => {
-                renderPokemon(data);
-            })
+
+
+// WHAT HERE??
+
+
     }
 })
-
-function renderPokemon(pokData) {
-    pokData.forEach(pokemon => {
-        const pokDiv = document.createElement("div");
-        pokDiv.classList.add("pokemon");
-        pokDiv.dataset.id = pokemon.pokPokemonId;
-
-        const pokImg = document.createElement("img");
-        pokImg.src = "images/pikachu-5527377_1920.jpg"; // Placeholder image
-
-        const pokInfoDiv = document.createElement("div");
-        pokInfoDiv.classList.add("text");
-
-        const pokId = document.createElement("p");
-        pokId.innerText = `Pokemon ID: ${pokemon.pokPokemonId}`;
-
-        const pokName = document.createElement("p");
-        pokName.innerText = `Name: ${pokemon.pokName}`;
-
-        const pokType = document.createElement("p");
-        pokType.innerText = `Type: ${pokemon.pokTypes[0].pokTypeName}`;
-
-        const pokAbilities = document.createElement("p");
-        pokAbilities.innerText = `Abilities: ${pokemon.pokAbilities}`;
-
-        const pokWeight = document.createElement("p");
-        pokWeight.innerText = `Weight: ${pokemon.pokWeight}`;
-
-        const pokHeight = document.createElement("p");
-        pokHeight.innerText = `Height: ${pokemon.pokHeight}`;
-
-        const pokGender = document.createElement("p");
-        pokGender.innerText = `Gender: ${pokemon.pokGender}`;
-
-        pokInfoDiv.appendChild(pokId);
-        pokInfoDiv.appendChild(pokName);
-        pokInfoDiv.appendChild(pokType);
-        pokInfoDiv.appendChild(pokAbilities);
-        pokInfoDiv.appendChild(pokWeight);
-        pokInfoDiv.appendChild(pokHeight);
-        pokInfoDiv.appendChild(pokGender);
-
-        pokDiv.appendChild(pokImg);
-        pokDiv.appendChild(pokInfoDiv);
-
-        document.querySelectorAll(".pokemons")[0].appendChild(pokDiv);
-    });
-   
-}
 
 function renderPokemonWithFavorite(pokData) {
 
@@ -158,26 +107,14 @@ function renderPokemonWithFavorite(pokData) {
         const pokInfoDiv = document.createElement("div");
         pokInfoDiv.classList.add("text");
 
-        const pokId = document.createElement("p");
-        pokId.innerText = `Pokemon ID: ${pokemon.pokPokemonId}`;
-
         const pokName = document.createElement("p");
-        pokName.innerText = `Name: ${pokemon.pokName}`;
+        pokName.innerText = pokemon.pokName;
 
         const pokType = document.createElement("p");
-        pokType.innerText = `Type: ${pokemon.pokTypes[0].pokTypeName}`;
+        pokType.innerText = pokemon.pokTypes[0].pokTypeName;
 
-        const pokAbilities = document.createElement("p");
-        pokAbilities.innerText = `Abilities: ${pokemon.pokAbilities}`;
-
-        const pokWeight = document.createElement("p");
-        pokWeight.innerText = `Weight: ${pokemon.pokWeight}`;
-
-        const pokHeight = document.createElement("p");
-        pokHeight.innerText = `Height: ${pokemon.pokHeight}`;
-
-        const pokGender = document.createElement("p");
-        pokGender.innerText = `Gender: ${pokemon.pokGender}`;
+        const pokId = document.createElement("p");
+        pokId.innerText = pokemon.pokPokemonId;
 
         const pokFav = document.createElement("i");
         pokFav.classList.add("fa-heart");
@@ -209,53 +146,14 @@ function renderPokemonWithFavorite(pokData) {
             })
         });
 
-        pokInfoDiv.appendChild(pokId);
         pokInfoDiv.appendChild(pokName);
         pokInfoDiv.appendChild(pokType);
+        pokInfoDiv.appendChild(pokId);
         pokInfoDiv.appendChild(pokFav);
-        pokInfoDiv.appendChild(pokAbilities);
-        pokInfoDiv.appendChild(pokWeight);
-        pokInfoDiv.appendChild(pokHeight);
-        pokInfoDiv.appendChild(pokGender);
 
         pokDiv.appendChild(pokImg);
         pokDiv.appendChild(pokInfoDiv);
 
         document.querySelectorAll(".pokemons")[0].appendChild(pokDiv);
     });
-}
-
-// Filtrering
-
-function filterPokemon(pokTypeId) {
-
-    const token = window.localStorage.getItem('x-authenticate-token');
-
-    const fetchOptions = {
-        headers: {
-            'Content-Type': 'application/json',
-        }
-    }
-    console.log(fetchOptions.headers['Content-Type']);
-    if (token) fetchOptions.headers['x-authenticate-token'] = token;
-    console.log(fetchOptions.headers);
-
-    if (token) {
-        fetch(APIaddress + "/api/pokemons/member?pokType=" + pokTypeId, fetchOptions)
-            .then(response => {
-                return response.json()
-            })
-            .then(data => {
-                renderPokemonWithFavorite(data);
-            })
-    } else {
-        fetch(APIaddress + "/api/pokemons?pokType=" + pokTypeId, fetchOptions)
-            .then(response => {
-                return response.json()
-            })
-            .then(data => {
-                console.log(data);
-                renderPokemon(data);
-            })
-    }
 }

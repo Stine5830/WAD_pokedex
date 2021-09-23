@@ -73,7 +73,6 @@ class Account {
                                 ON u.FK_roleId = r.roleId
                             WHERE u.userEmail = @userEmail
                         `);
-                    console.log(result);
 
                     if (!result.recordset[0]) throw { statusCode: 404, errorMessage: 'User not found with provided credentials.' }
                     if (result.recordset.length > 1) throw { statusCode: 500, errorMessage: 'Multiple hits of unique data. Corrupt database.' }
@@ -119,7 +118,6 @@ class Account {
                                 ON u.FK_roleId = r.roleId
                             WHERE u.userEmail = @userEmail 
                         `);
-                    console.log(result);
 
                     if (!result.recordset[0]) throw { statusCode: 404, errorMessage: 'User not found with provided credentials.' }
                     if (result.recordset.length > 1) throw { statusCode: 500, errorMessage: 'Multiple hits of unique data. Corrupt database.' }
@@ -183,7 +181,6 @@ class Account {
                         INSERT INTO pokPassword([passwordValue], [FK_userId])
                         VALUES (@hashedPassword, SCOPE_IDENTITY());
                     `);
-                        console.log(result00);
                         if (!result00.recordset[0]) throw { statusCode: 500, errorMessage: 'Something went wrong, login is not created.' }
 
                         const accountResponse = {

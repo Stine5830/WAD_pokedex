@@ -6,7 +6,6 @@ const app = express();
 
 const cors = require('cors');
 
-// custom middleware
 const setContentTypeJSON = require('./middleware/setResponseHeader');
 
 const accounts = require('./routes/accounts');

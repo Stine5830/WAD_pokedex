@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" data-auto-replace-svg="nest"></script>
     <link rel="stylesheet" href="style.css">
     <script src="script.js" defer></script>
     <title>Pokédex 2.0</title>
@@ -13,9 +14,16 @@
 <body>
     <header>
         <nav>
-            <h1>Pokédex 2.0</h1>
+            <a href="index.html">
+                <h1>Pokédex 2.0</h1>
+            </a>
             <ul class="path">
-                <li>FAVORITES</li>
+                <a href="favorites.html">
+                    <li>FAVORITES</li>
+                </a>
+                <a href="signup.html">
+                    <li>SIGN UP</li>
+                </a>
                 <section>
                     <div id="logIn">
                         <input type="text" id="userEmail" name="userEmail" placeholder="email">
@@ -55,82 +63,8 @@
             <button class="typeFilter" onclick="filterPokemon(17)">Dragon</button>
             <button class="typeFilter" onclick="filterPokemon(18)">Dark</button>
         </div>
-        <!-- <p><input type="number" id="checkType" value="18"></p>
-
-        <button onclick="frontendType()">Try it</button>
-
-        <p id="demo"></p> -->
     </section>
     <section class="pokemons">
-
-        <!-- <div class="four">
-            <div class="pokemon">
-                <img src="images/pikachu-5527377_1920.jpg" class="pokPic">
-                <div class="text">
-                    <p>Name</p>
-                    <p>Type</p>
-                    <p>ID</p>
-                </div>
-            </div>
-            <div class="pokemon">
-                <img src="images/pikachu-5527377_1920.jpg" class="pokPic">
-                <div class="text">
-                    <p>Name</p>
-                    <p>Type</p>
-                    <p>ID</p>
-                </div>
-            </div>
-            <div class="pokemon">
-                <img src="images/pikachu-5527377_1920.jpg" class="pokPic">
-                <div class="text">
-                    <p>Name</p>
-                    <p>Type</p>
-                    <p>ID</p>
-                </div>
-            </div>
-            <div class="pokemon">
-                <img src="images/pikachu-5527377_1920.jpg" class="pokPic">
-                <div class="text">
-                    <p>Name</p>
-                    <p>Type</p>
-                    <p>ID</p>
-                </div>
-            </div>
-        </div>
-        <div class="four">
-            <div class="pokemon">
-                <img src="images/pikachu-5527377_1920.jpg" class="pokPic">
-                <div class="text">
-                    <p>Name</p>
-                    <p>Type</p>
-                    <p>ID</p>
-                </div>
-            </div>
-            <div class="pokemon">
-                <img src="images/pikachu-5527377_1920.jpg" class="pokPic">
-                <div class="text">
-                    <p>Name</p>
-                    <p>Type</p>
-                    <p>ID</p>
-                </div>
-            </div>
-            <div class="pokemon">
-                <img src="images/pikachu-5527377_1920.jpg" class="pokPic">
-                <div class="text">
-                    <p>Name</p>
-                    <p>Type</p>
-                    <p>ID</p>
-                </div>
-            </div>
-            <div class="pokemon">
-                <img src="images/pikachu-5527377_1920.jpg" class="pokPic">
-                <div class="text">
-                    <p>Name</p>
-                    <p>Type</p>
-                    <p>ID</p>
-                </div>
-            </div>
-        </div> -->
     </section>
 </body>
 

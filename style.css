@@ -48,25 +48,10 @@ section {
     margin-top: 2%;
 }
 
-.four {
-    display: flex;
-    margin-bottom: 2%;
-}
-
 .pokemon {
     border: solid 1px gray;
     width: 40%;
     margin: 0 2%;
-}
-
-.pokPic {
-    width: 75%;
-    height: auto;
-    padding: 10% 12%;
-}
-
-.text {
-    padding: 0 5%;
 }
 
 .hidden {
