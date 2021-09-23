@@ -102,7 +102,7 @@ function renderPokemon(pokData) {
         pokDiv.dataset.id = pokemon.pokPokemonId;
 
         const pokImg = document.createElement("img");
-        pokImg.src = "/Frontend/images/pikachu-5527377_1920.jpg"; // Placeholder image
+        pokImg.src = "/images/pikachu-5527377_1920.jpg"; // Placeholder image
 
         const pokInfoDiv = document.createElement("div");
         pokInfoDiv.classList.add("text");
@@ -154,7 +154,7 @@ function renderPokemonWithFavorite(pokData) {
         pokDiv.dataset.id = pokemon.pokPokemonId;
 
         const pokImg = document.createElement("img");
-        pokImg.src = "/Frontend/images/pikachu-5527377_1920.jpg";
+        pokImg.src = "/images/pikachu-5527377_1920.jpg";
 
         const pokInfoDiv = document.createElement("div");
         pokInfoDiv.classList.add("text");
