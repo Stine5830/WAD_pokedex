@@ -5,6 +5,7 @@ const Pokemon = require('../models/pokemon');
 const authenticate = require("../middleware/authenticate");
 const admin = require("../middleware/admin");
 
+// get all pokemons endpoint "public"
 router.get('/', async (req, res) => {
     let pokTypeId;
     if (req.query.pokType) {
@@ -19,7 +20,7 @@ router.get('/', async (req, res) => {
         return res.status(500).send(JSON.stringify({ errorMessage: err }));
     }
 });
-
+// get all pokemons logged in endpoint "private"
 router.get('/member', [authenticate], async (req, res) => {
     let pokTypeId;
     if (req.query.pokType) {
@@ -34,7 +35,7 @@ router.get('/member', [authenticate], async (req, res) => {
         return res.status(500).send(JSON.stringify({ errorMessage: err }));
     }
 });
-
+// get all favorite pokemons endpoint "private"
 router.get('/member/favorites', [authenticate], async (req, res) => {
 
     try {
@@ -44,7 +45,7 @@ router.get('/member/favorites', [authenticate], async (req, res) => {
         return res.status(500).send(JSON.stringify({ errorMessage: err }));
     }
 });
-
+// make or unmake favorite pokemon endpoint "private"
 router.put('/member/favorites/:pokPokemonId', [authenticate], async (req, res) => {
 
     let pokPokemonId;
@@ -63,7 +64,7 @@ router.put('/member/favorites/:pokPokemonId', [authenticate], async (req, res) =
         return res.status(500).send(JSON.stringify({ errorMessage: err }));
     }
 });
-
+// get specific pokemon endpoint "public"
 router.get('/:pokPokemonId', async (req, res) => {
 
     const { error } = Pokemon.validate(req.params);
@@ -76,7 +77,7 @@ router.get('/:pokPokemonId', async (req, res) => {
         return res.status(500).send(JSON.stringify({ errorMessage: err }));
     }
 });
-
+// make new pokemon endpoint "only admin"
 router.post('/', [authenticate, admin], async (req, res) => {
 
     const { error } = Pokemon.validate(req.body);
@@ -90,7 +91,7 @@ router.post('/', [authenticate, admin], async (req, res) => {
         return res.status(500).send(JSON.stringify({ errorMessage: err }));
     }
 });
-
+// delete specific pokemon endpoint "only admin"
 router.delete('/:pokPokemonId', [authenticate, admin], async (req, res) => {
 
     const { error } = Pokemon.validate(req.params);
@@ -103,7 +104,7 @@ router.delete('/:pokPokemonId', [authenticate, admin], async (req, res) => {
         return res.status(500).send(JSON.stringify({ errorMessage: err }));
     }
 });
-
+// update specific pokemon endpoint "only admin"
 router.put('/:pokPokemonId', [authenticate, admin], async (req, res) => {
 
     const pokPokemonIdValidate = Pokemon.validate(req.params);

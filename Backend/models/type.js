@@ -8,12 +8,13 @@ const Joi = require('joi');
 const _ = require('lodash');
 
 class Type {
+    // Contructing of type object
     constructor(typeObj) {
         this.pokTypeId = typeObj.pokTypeId;
         this.pokTypeName = typeObj.pokTypeName;
         this.pokTypeDescription = typeObj.pokTypeDescription;
     }
-
+    // Validation of type object
     static validate(typeObj) {
         const schema = Joi.object({
             pokTypeId: Joi.number()
@@ -28,7 +29,7 @@ class Type {
 
         return schema.validate(typeObj);
     }
-
+    // Checking if type exists
     static readById(pokTypeId) {
         return new Promise((resolve, reject) => {
             (async () => {

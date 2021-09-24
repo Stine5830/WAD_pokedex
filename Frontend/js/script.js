@@ -7,6 +7,7 @@ const logoutButton = document.querySelector('#logoutButton');
 
 const APIaddress = 'http://127.0.0.1:8434';
 
+// Login - save token in localstorage - toggle login/logout buttons
 loginButton.addEventListener('click', (e) => {
     if (userEmail.value && userPassword.value) {
         const payload = {
@@ -48,6 +49,7 @@ loginButton.addEventListener('click', (e) => {
 
 });
 
+// Logout - toggle logout/login buttons
 logoutButton.addEventListener('click', (e) => {
     window.localStorage.removeItem('x-authenticate-token');
     window.localStorage.removeItem('accountInfo');
@@ -57,6 +59,7 @@ logoutButton.addEventListener('click', (e) => {
     logoutDiv.classList.toggle('hidden');
 });
 
+// on load check if token - if token renderwithfavoritepokemon - if not token renderpokemon
 window.addEventListener('load', (e) => {
     const token = window.localStorage.getItem('x-authenticate-token');
 
@@ -94,6 +97,7 @@ window.addEventListener('load', (e) => {
     }
 })
 
+// public pokemons rendered from database
 function renderPokemon(pokData) {
     document.querySelectorAll(".pokemons")[0].innerHTML = "";
     pokData.forEach(pokemon => {
@@ -144,6 +148,7 @@ function renderPokemon(pokData) {
 
 }
 
+// private pokemons rendered from database with favorite-heart
 function renderPokemonWithFavorite(pokData) {
     document.querySelectorAll(".pokemons")[0].innerHTML = "";
     pokData.forEach(pokemon => {
@@ -226,8 +231,7 @@ function renderPokemonWithFavorite(pokData) {
     });
 }
 
-// Filtrering
-
+// Filtrering public and private pokemon types
 function filterPokemon(pokTypeId) {
 
     const token = window.localStorage.getItem('x-authenticate-token');

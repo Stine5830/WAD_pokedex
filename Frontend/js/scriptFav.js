@@ -7,6 +7,7 @@ const logoutButton = document.querySelector('#logoutButton');
 
 const APIaddress = 'http://127.0.0.1:8434';
 
+// Login - save token in localstorage - toggle login/logout buttons
 loginButton.addEventListener('click', (e) => {
     if (userEmail.value && userPassword.value) {
         const payload = {
@@ -48,6 +49,7 @@ loginButton.addEventListener('click', (e) => {
 
 });
 
+// Logout - toggle logout/login buttons
 logoutButton.addEventListener('click', (e) => {
     window.localStorage.removeItem('x-authenticate-token');
     window.localStorage.removeItem('accountInfo');
@@ -57,6 +59,7 @@ logoutButton.addEventListener('click', (e) => {
     logoutDiv.classList.toggle('hidden');
 });
 
+// on load check if token - if token renderwithfavoritepokemon
 window.addEventListener('load', (e) => {
     const token = window.localStorage.getItem('x-authenticate-token');
 
@@ -84,16 +87,12 @@ window.addEventListener('load', (e) => {
                 renderPokemonWithFavorite(data);
             })
     } else {
-
-
-// WHAT HERE??
-
-
+        alert('You have to be logged in!');
     }
 })
 
+// private pokemons rendered from database with favorite-heart
 function renderPokemonWithFavorite(pokData) {
-
     pokData.forEach(pokemon => {
         console.log(pokemon);
 

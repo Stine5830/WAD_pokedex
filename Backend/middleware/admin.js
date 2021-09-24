@@ -1,3 +1,4 @@
+// authorizing the admin role
 module.exports = (req, res, next) => {
     if (req.account.userRole.roleName == 'admin') next();
 

@@ -4,6 +4,7 @@ const userEmail = document.querySelector('#userEmail');
 const userPassword = document.querySelector('#userPassword');
 const userName = document.querySelector("#userName");
 
+// Signup with semiauto login
 signUpButton.addEventListener('click', (e) => {
     if (userEmail.value && userPassword.value && userName.value) {
         const payload = {
@@ -19,7 +20,6 @@ signUpButton.addEventListener('click', (e) => {
             },
             body: JSON.stringify(payload)
         }
-        // efter signup er man logget ind, men token mangler indtil man har logget ud og ind igen
 
         fetch(APIaddress + '/api/accounts', fetchOptions)
             .then(response => {
@@ -27,9 +27,6 @@ signUpButton.addEventListener('click', (e) => {
             })
             .then(data => {
                 console.log(data);
-
-                // auto-login-ish
-
 
                 const payload2 = {
                     userEmail: userEmail.value,

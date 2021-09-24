@@ -10,6 +10,7 @@ const _ = require('lodash');
 const Type = require('./type');
 
 class Pokemon {
+    // Contructing of pokemon object
     constructor(pokemonObj) {
         this.pokPokemonId = pokemonObj.pokPokemonId;
         this.pokName = pokemonObj.pokName;
@@ -20,7 +21,7 @@ class Pokemon {
         if (pokemonObj.pokFavorite) this.pokFavorite = pokemonObj.pokFavorite;
         if (pokemonObj.pokTypes) this.pokTypes = _.cloneDeep(pokemonObj.pokTypes);
     }
-
+    
     copy(pokemonObj) {
         if (pokemonObj.pokName) this.pokName = pokemonObj.pokName;
         if (pokemonObj.pokHeight) this.pokHeight = pokemonObj.pokHeight;
@@ -30,7 +31,7 @@ class Pokemon {
         if (pokemonObj.pokFavorite) this.pokFavorite = pokemonObj.pokFavorite;
         if (pokemonObj.pokTypes) this.pokTypes = _.cloneDeep(pokemonObj.pokTypes);
     }
-
+    // Validation of pokemonwannabee object
     static validate(pokemonWannabeeObj) {
         const schema = Joi.object({
             pokPokemonId: Joi.number()
@@ -69,7 +70,7 @@ class Pokemon {
         });
         return schema.validate(pokemonWannabeeObj);
     }
-
+    // Read all pokemons 
     static readAll(pokTypeId) {
         return new Promise((resolve, reject) => {
             (async () => {
@@ -163,7 +164,7 @@ class Pokemon {
             })();
         });
     }
-
+    // Read pokemon by id
     static readById(pokPokemonId) {
         return new Promise((resolve, reject) => {
             (async () => {
@@ -230,7 +231,7 @@ class Pokemon {
             })();
         });
     }
-
+    // Creating a pokemon - checking if it is a new pokemon
     create() {
         return new Promise((resolve, reject) => {
             (async () => {
@@ -303,7 +304,7 @@ class Pokemon {
             })();
         });
     }
-
+    // Delete a specific pokemon by id
     static delete(pokPokemonId) {
         return new Promise((resolve, reject) => {
             (async () => {
@@ -333,6 +334,7 @@ class Pokemon {
             })();
         })
     }
+    // Update a specific pokemon by id
     update() {
         return new Promise((resolve, reject) => {
             (async () => {
@@ -394,7 +396,7 @@ class Pokemon {
             })();
         });
     }
-
+    // Read pokemons by userid
     static readByUserId(userId) {
         return new Promise((resolve, reject) => {
             (async () => {
@@ -467,7 +469,7 @@ class Pokemon {
             })();
         });
     }
-
+    // Delete from favorite if already a favorite, or add to favorite if not already a favorite
     toggleFavorite(userId) {
         return new Promise((resolve, reject) => {
             (async () => {
@@ -589,7 +591,7 @@ class Pokemon {
         });
 
     }
-
+    // !!!
     static readAllWithFavorites([userId, pokTypeId]) {
         return new Promise((resolve, reject) => {
             (async () => {

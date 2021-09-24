@@ -7,6 +7,7 @@ const config = require('config');
 
 const secret = config.get('jwt_secret_key');
 
+// Login endpoint
 router.post('/login', async (req, res) => {
     res.setHeader('Access-Control-Expose-Headers', 'x-authenticate-token');
     try {
@@ -30,7 +31,7 @@ router.post('/login', async (req, res) => {
         return res.status(400).send(JSON.stringify({ errorMessage: err.errorMessage.details[0].message }));
     }
 });
-
+// New account endpoint
 router.post('/', async (req, res) => {
     res.setHeader('Content-Type', 'application/json');
     try {

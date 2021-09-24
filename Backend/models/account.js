@@ -8,12 +8,13 @@ const salt = parseInt(config.get('saltRounds'));
 
 class Account {
     
+    // Contructing of account object
     constructor(accountObj) {
         this.userEmail = accountObj.userEmail;
         this.userPassword = accountObj.userPassword;
         this.userName = accountObj.userName;
     }
-
+    // Validation of account object
     static validate(accountObj) {
         const schema = Joi.object({
             userEmail: Joi.string()
@@ -31,7 +32,7 @@ class Account {
 
         return schema.validate(accountObj);
     }
-
+    // Validation of account response
     static validateResponse(accountResponse) {
         const schema = Joi.object({
             userId: Joi.number()
@@ -56,7 +57,7 @@ class Account {
 
         return schema.validate(accountResponse);
     }
-
+    // Checking it credentials match the database 
     static checkCredentials(accountObj) {
         return new Promise((resolve, reject) => {
             (async () => {
@@ -103,7 +104,7 @@ class Account {
             })();
         });
     }
-
+    // Checking if account with email exists
     static readByEmail(accountObj) {
         return new Promise((resolve, reject) => {
             (async () => {
@@ -145,7 +146,7 @@ class Account {
             })();
         });
     }
-
+    // Creating new account
     create() {
         return new Promise((resolve, reject) => {
             (async () => {
