@@ -54,14 +54,14 @@ signUpButton.addEventListener('click', (e) => {
                         window.localStorage.setItem('accountInfo', JSON.stringify(data));
                         console.log(window.localStorage.getItem('accountInfo'));
 
-                        window.location.href="index.html";
+                        window.location.href = "index.html";
                         return true
                     })
                     .catch(error => {
                         alert('Invalid user name or password.');
                     });
 
-                }
+            }
             )
             .catch(err => {
                 alert('Error signing up.');

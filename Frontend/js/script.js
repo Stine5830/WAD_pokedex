@@ -35,6 +35,7 @@ loginButton.addEventListener('click', (e) => {
                 console.log(data);
                 window.localStorage.setItem('accountInfo', JSON.stringify(data));
                 console.log(window.localStorage.getItem('accountInfo'));
+                window.location.reload();
 
                 loginDiv.classList.toggle('hidden');
                 logoutDiv.classList.toggle('hidden');
@@ -46,7 +47,6 @@ loginButton.addEventListener('click', (e) => {
     } else {
         alert('Please enter user email and password!');
     }
-
 });
 
 // Logout - toggle logout/login buttons
@@ -54,6 +54,7 @@ logoutButton.addEventListener('click', (e) => {
     window.localStorage.removeItem('x-authenticate-token');
     window.localStorage.removeItem('accountInfo');
     console.log('Account logged out.');
+    window.location.reload();
 
     loginDiv.classList.toggle('hidden');
     logoutDiv.classList.toggle('hidden');

@@ -45,7 +45,7 @@ router.get('/member/favorites', [authenticate], async (req, res) => {
         return res.status(500).send(JSON.stringify({ errorMessage: err }));
     }
 });
-// make or unmake favorite pokemon endpoint "private"
+// add or remove favorite pokemon endpoint "private"
 router.put('/member/favorites/:pokPokemonId', [authenticate], async (req, res) => {
 
     let pokPokemonId;

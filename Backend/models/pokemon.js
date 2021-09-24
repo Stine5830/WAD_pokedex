@@ -21,7 +21,7 @@ class Pokemon {
         if (pokemonObj.pokFavorite) this.pokFavorite = pokemonObj.pokFavorite;
         if (pokemonObj.pokTypes) this.pokTypes = _.cloneDeep(pokemonObj.pokTypes);
     }
-    
+    // Check if pokemon object is there
     copy(pokemonObj) {
         if (pokemonObj.pokName) this.pokName = pokemonObj.pokName;
         if (pokemonObj.pokHeight) this.pokHeight = pokemonObj.pokHeight;
@@ -351,6 +351,8 @@ class Pokemon {
                         .input('pokName', sql.NVarChar(50), this.pokName)
                         .input('pokHeight', sql.NVarChar(50), this.pokHeight)
                         .input('pokWeight', sql.NVarChar(50), this.pokWeight)
+                        .input('pokGender', sql.NVarChar(50), this.pokGender)
+                        .input('pokAbilities', sql.NVarChar(255), this.pokAbilities)
                         .input('pokPokemonId', sql.Int(), this.pokPokemonId)
                         .input('pokTypeId', sql.Int(), this.pokTypes[0].pokTypeId)
                         .query(`
@@ -358,7 +360,9 @@ class Pokemon {
                         SET 
                             pokName = @pokName,
                             pokHeight = @pokHeight,
-                            pokWeight = @pokWeight
+                            pokWeight = @pokWeight,
+                            pokGender = @pokGender,
+                            pokAbilities = @pokAbilities
                         WHERE pokPokemonId = @pokPokemonId;
 
                         DELETE pokPokemonTypes
@@ -487,7 +491,7 @@ class Pokemon {
                             AND FK_pokPokemonId = @pokPokemonId
                         `)
 
-                        let result;
+                    let result;
                     if (result00.recordset.length > 0) {
                         await pool.connect();
                         result = await pool.request()
@@ -591,7 +595,7 @@ class Pokemon {
         });
 
     }
-    // !!!
+    // Read all pokemons with favorite button
     static readAllWithFavorites([userId, pokTypeId]) {
         return new Promise((resolve, reject) => {
             (async () => {

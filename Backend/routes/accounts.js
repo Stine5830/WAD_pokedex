@@ -25,7 +25,7 @@ router.post('/login', async (req, res) => {
 
     } catch (err) {
         console.log(err);
-        
+
         if (!err.statusCode) return res.status(401).send(JSON.stringify({ errorMessage: 'Incorrect user email or password.' }));
         if (err.statusCode != 400) return res.status(401).send(JSON.stringify({ errorMessage: 'Incorrect user email or password.' }));
         return res.status(400).send(JSON.stringify({ errorMessage: err.errorMessage.details[0].message }));
@@ -35,7 +35,7 @@ router.post('/login', async (req, res) => {
 router.post('/', async (req, res) => {
     res.setHeader('Content-Type', 'application/json');
     try {
-  
+
         const { error } = Account.validate(req.body);
         if (error) throw { statusCode: 400, errorMessage: error };
 

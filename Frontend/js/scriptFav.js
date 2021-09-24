@@ -35,6 +35,7 @@ loginButton.addEventListener('click', (e) => {
                 console.log(data);
                 window.localStorage.setItem('accountInfo', JSON.stringify(data));
                 console.log(window.localStorage.getItem('accountInfo'));
+                window.location.reload();
 
                 loginDiv.classList.toggle('hidden');
                 logoutDiv.classList.toggle('hidden');
@@ -54,6 +55,7 @@ logoutButton.addEventListener('click', (e) => {
     window.localStorage.removeItem('x-authenticate-token');
     window.localStorage.removeItem('accountInfo');
     console.log('Account logged out.');
+    window.location.reload();
 
     loginDiv.classList.toggle('hidden');
     logoutDiv.classList.toggle('hidden');
@@ -147,14 +149,14 @@ function renderPokemonWithFavorite(pokData) {
             if (token) fetchOptions.headers['x-authenticate-token'] = token;
 
             fetch(APIaddress + "/api/pokemons/member/favorites/" + pokemon.pokPokemonId, fetchOptions)
-            .then(response => {
-                return response.json()
-            })
-            .then(data => {
-                console.log(data);
-                window.location.reload();
-                return false;
-            })
+                .then(response => {
+                    return response.json()
+                })
+                .then(data => {
+                    console.log(data);
+                    window.location.reload();
+                    return false;
+                })
         });
 
         pokInfoDiv.appendChild(pokId);

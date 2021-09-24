@@ -7,7 +7,7 @@ const con = config.get('dbConfig_UCN');
 const salt = parseInt(config.get('saltRounds'));
 
 class Account {
-    
+
     // Contructing of account object
     constructor(accountObj) {
         this.userEmail = accountObj.userEmail;
@@ -89,7 +89,7 @@ class Account {
                             roleName: result.recordset[0].roleName
                         }
                     }
-                    
+
                     const { error } = Account.validateResponse(accountResponse);
                     if (error) throw { statusCode: 500, errorMessage: 'Corrupt user account informaion in database.' }
 
@@ -151,17 +151,17 @@ class Account {
         return new Promise((resolve, reject) => {
             (async () => {
                 try {
-                    const account = await Account.readByEmail(this);  
-                    
+                    const account = await Account.readByEmail(this);
+
                     reject({ statusCode: 409, errorMessage: 'Conflict: user email is already in use.' })
                 } catch (error) {
-                    
+
                     console.log(error);
                     if (!error.statusCode) reject(error);
                     if (error.statusCode != 404) reject(error);
 
                     try {
-                    
+
                         const hashedPassword = await bcrypt.hash(this.userPassword, salt);
 
                         const pool = await sql.connect(con);
@@ -192,7 +192,7 @@ class Account {
                                 roleName: result00.recordset[0].roleName
                             }
                         }
-                        
+
                         const { error } = Account.validateResponse(accountResponse);
                         console.log(error);
                         if (error) throw { statusCode: 500, errorMessage: 'Corrupt user account informaion in database.' }
